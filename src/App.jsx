@@ -25,9 +25,22 @@ export default function App() {
     setTasks(updatedTasks);
   };
 
+  const deleteTask = (id) => {
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
+  };
+
+  const totalTasks = tasks.length;
+  const completedTasks = tasks.filter((task) => task.completed).length;
+
   return (
     <div style={styles.container}>
       <h1>SprintFlow</h1>
+
+      <div style={styles.stats}>
+        <p>Total Tasks: <strong>{totalTasks}</strong></p>
+        <p>Completed: <strong>{completedTasks}</strong></p>
+      </div>
 
       <div style={styles.inputContainer}>
         <input
@@ -50,15 +63,24 @@ export default function App() {
               checked={task.completed}
               onChange={() => toggleTask(task.id)}
             />
+
             <span
               style={{
                 ...styles.taskText,
                 textDecoration: task.completed ? "line-through" : "none",
                 opacity: task.completed ? 0.6 : 1,
+                flex: 1,
               }}
             >
               {task.text}
             </span>
+
+            <button
+              onClick={() => deleteTask(task.id)}
+              style={styles.deleteButton}
+            >
+              Delete
+            </button>
           </li>
         ))}
       </ul>
@@ -72,6 +94,12 @@ const styles = {
     margin: "50px auto",
     fontFamily: "Arial, sans-serif",
     textAlign: "center",
+  },
+  stats: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginBottom: "20px",
+    fontSize: "18px",
   },
   inputContainer: {
     display: "flex",
@@ -87,6 +115,14 @@ const styles = {
     padding: "10px 16px",
     fontSize: "16px",
     cursor: "pointer",
+  },
+  deleteButton: {
+    padding: "6px 10px",
+    cursor: "pointer",
+    background: "#ff4d4d",
+    border: "none",
+    color: "white",
+    borderRadius: "4px",
   },
   taskList: {
     listStyle: "none",
