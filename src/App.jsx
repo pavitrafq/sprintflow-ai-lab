@@ -1,35 +1,106 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [taskInput, setTaskInput] = useState("");
+  const [tasks, setTasks] = useState([]);
+
+  const addTask = () => {
+    if (!taskInput.trim()) return;
+
+    const newTask = {
+      id: Date.now(),
+      text: taskInput,
+      completed: false,
+    };
+
+    setTasks([...tasks, newTask]);
+    setTaskInput("");
+  };
+
+  const toggleTask = (id) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === id ? { ...task, completed: !task.completed } : task
+    );
+    setTasks(updatedTasks);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div style={styles.container}>
+      <h1>SprintFlow</h1>
+
+      <div style={styles.inputContainer}>
+        <input
+          type="text"
+          placeholder="Enter a task..."
+          value={taskInput}
+          onChange={(e) => setTaskInput(e.target.value)}
+          style={styles.input}
+        />
+        <button onClick={addTask} style={styles.button}>
+          Add
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+      <ul style={styles.taskList}>
+        {tasks.map((task) => (
+          <li key={task.id} style={styles.taskItem}>
+            <input
+              type="checkbox"
+              checked={task.completed}
+              onChange={() => toggleTask(task.id)}
+            />
+            <span
+              style={{
+                ...styles.taskText,
+                textDecoration: task.completed ? "line-through" : "none",
+                opacity: task.completed ? 0.6 : 1,
+              }}
+            >
+              {task.text}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
-export default App
+const styles = {
+  container: {
+    maxWidth: "500px",
+    margin: "50px auto",
+    fontFamily: "Arial, sans-serif",
+    textAlign: "center",
+  },
+  inputContainer: {
+    display: "flex",
+    gap: "10px",
+    marginBottom: "20px",
+  },
+  input: {
+    flex: 1,
+    padding: "10px",
+    fontSize: "16px",
+  },
+  button: {
+    padding: "10px 16px",
+    fontSize: "16px",
+    cursor: "pointer",
+  },
+  taskList: {
+    listStyle: "none",
+    padding: 0,
+  },
+  taskItem: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    padding: "8px",
+    borderBottom: "1px solid #eee",
+    textAlign: "left",
+  },
+  taskText: {
+    fontSize: "16px",
+  },
+};
