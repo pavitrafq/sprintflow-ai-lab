@@ -89,6 +89,11 @@ export default function App() {
   );
 }
 
+
+<button onClick={() => { throw new Error("Test Sentry Error 🚨"); }}>
+  Trigger Error
+</button>
+
 const styles = {
   container: {
     maxWidth: "500px",
