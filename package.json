@@ -10,6 +10,8 @@
     "test": "vitest run --pool=forks"
   },
   "dependencies": {
+    "@sentry/react": "^10.39.0",
+    "@sentry/tracing": "^7.120.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
