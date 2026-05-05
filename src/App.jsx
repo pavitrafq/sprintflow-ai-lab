@@ -15,6 +15,7 @@ export default function App() {
       completed: false,
     };
 
+
     setTasks([...tasks, newTask]);
     setTaskInput("");
   };
