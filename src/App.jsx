@@ -16,8 +16,6 @@ export default function App() {
     };
 
 
-    
-
     setTasks([...tasks, newTask]);
     setTaskInput("");
   };
